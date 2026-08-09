@@ -23,20 +23,21 @@ export default function WalletCard({
         className="w-full aspect-[1.6/1] block cursor-pointer relative card-flip-inner rounded-3xl"
         style={{ transform: flipped ? "rotateY(180deg)" : "none" }}
       >
+        {/* Front */}
         <div
           className="card-face absolute inset-0 rounded-3xl p-6 flex flex-col justify-between text-left overflow-hidden"
           style={{
             background:
-              "linear-gradient(135deg, var(--primary) 0%, #3d2b9e 60%, var(--ink-deep) 100%)",
+              "linear-gradient(135deg, var(--primary) 0%, #b8481f 55%, var(--ink-deep) 100%)",
           }}
         >
           <div
-            className="absolute -right-10 -top-10 h-40 w-40 rounded-full opacity-20"
-            style={{ background: "var(--gold)" }}
+            className="absolute -right-10 -top-10 h-40 w-40 rounded-full opacity-25"
+            style={{ background: "var(--credit)" }}
           />
           <div className="flex items-start justify-between relative">
-            <div className="h-8 w-11 rounded-md bg-gradient-to-br from-[var(--gold)] to-[#c99a2e] opacity-90" />
-            <span className="font-display text-sm font-semibold tracking-wide text-white/80">
+            <div className="h-8 w-11 rounded-md bg-gradient-to-br from-[var(--gold)] to-[#b8860b] opacity-90" />
+            <span className="font-display text-sm font-bold tracking-wide text-white/85">
               Wal
             </span>
           </div>
@@ -60,6 +61,7 @@ export default function WalletCard({
           </div>
         </div>
 
+        {/* Back — QR */}
         <div
           className="card-face card-face-back absolute inset-0 rounded-3xl p-6 flex flex-col items-center justify-center gap-3"
           style={{ background: "var(--paper)" }}

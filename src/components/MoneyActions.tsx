@@ -72,7 +72,7 @@ export function AddMoneyButton() {
               required
               autoFocus
               placeholder="1,000"
-              className="w-full bg-[var(--ink-deep)] border border-[var(--hairline)] rounded-lg px-3 py-2.5 font-mono text-lg focus:border-[var(--credit)] outline-none"
+              className="w-full bg-[var(--ink-deep)] border border-[var(--hairline)] rounded-xl px-3 py-2.5 font-mono text-lg focus:border-[var(--credit)] outline-none"
             />
           </div>
           <div>
@@ -82,17 +82,17 @@ export function AddMoneyButton() {
             <input
               name="note"
               placeholder="Top-up"
-              className="w-full bg-[var(--ink-deep)] border border-[var(--hairline)] rounded-lg px-3 py-2.5 text-sm focus:border-[var(--credit)] outline-none"
+              className="w-full bg-[var(--ink-deep)] border border-[var(--hairline)] rounded-xl px-3 py-2.5 text-sm focus:border-[var(--credit)] outline-none"
             />
           </div>
           {state.error && (
-            <p className="text-sm text-[var(--debit)] bg-[var(--debit)]/10 rounded-lg px-3 py-2">
+            <p className="text-sm text-[var(--debit)] bg-[var(--debit)]/10 rounded-xl px-3 py-2">
               {state.error}
             </p>
           )}
           <button
             disabled={pending}
-            className="w-full bg-[var(--credit)] text-[#062114] rounded-lg py-2.5 text-sm font-semibold disabled:opacity-60 cursor-pointer"
+            className="w-full bg-[var(--credit)] text-[#062114] rounded-xl py-2.5 text-sm font-semibold disabled:opacity-60 cursor-pointer"
           >
             {pending ? "Adding…" : "Add to wallet"}
           </button>
@@ -136,7 +136,7 @@ export function SendMoneyButton() {
               required
               autoFocus
               placeholder="WAL-000000"
-              className="w-full bg-[var(--ink-deep)] border border-[var(--hairline)] rounded-lg px-3 py-2.5 font-mono text-sm tracking-wider focus:border-[var(--primary-soft)] outline-none uppercase"
+              className="w-full bg-[var(--ink-deep)] border border-[var(--hairline)] rounded-xl px-3 py-2.5 font-mono text-sm tracking-wider focus:border-[var(--primary-soft)] outline-none uppercase"
             />
           </div>
           <div>
@@ -150,7 +150,7 @@ export function SendMoneyButton() {
               step="0.01"
               required
               placeholder="500"
-              className="w-full bg-[var(--ink-deep)] border border-[var(--hairline)] rounded-lg px-3 py-2.5 font-mono text-lg focus:border-[var(--primary-soft)] outline-none"
+              className="w-full bg-[var(--ink-deep)] border border-[var(--hairline)] rounded-xl px-3 py-2.5 font-mono text-lg focus:border-[var(--primary-soft)] outline-none"
             />
           </div>
           <div>
@@ -160,17 +160,17 @@ export function SendMoneyButton() {
             <input
               name="note"
               placeholder="For lunch"
-              className="w-full bg-[var(--ink-deep)] border border-[var(--hairline)] rounded-lg px-3 py-2.5 text-sm focus:border-[var(--primary-soft)] outline-none"
+              className="w-full bg-[var(--ink-deep)] border border-[var(--hairline)] rounded-xl px-3 py-2.5 text-sm focus:border-[var(--primary-soft)] outline-none"
             />
           </div>
           {state.error && (
-            <p className="text-sm text-[var(--debit)] bg-[var(--debit)]/10 rounded-lg px-3 py-2">
+            <p className="text-sm text-[var(--debit)] bg-[var(--debit)]/10 rounded-xl px-3 py-2">
               {state.error}
             </p>
           )}
           <button
             disabled={pending}
-            className="w-full bg-[var(--primary)] rounded-lg py-2.5 text-sm font-semibold disabled:opacity-60 cursor-pointer"
+            className="w-full bg-[var(--primary)] rounded-xl py-2.5 text-sm font-semibold disabled:opacity-60 cursor-pointer"
           >
             {pending ? "Sending…" : "Send"}
           </button>
