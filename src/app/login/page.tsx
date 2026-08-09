@@ -68,8 +68,19 @@ export default function LoginPage() {
     await authClient.signIn.social({ provider, callbackURL: "/" });
   }
 
-  return (
-    <main className="min-h-screen flex flex-col lg:flex-row">
+ return (
+    <main className="min-h-screen flex flex-col lg:flex-row relative">
+      
+      <a href="https://github.com/Quadratic12345/Valerius"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="fixed top-4 right-4 z-10 flex items-center gap-2 bg-[var(--surface)] hover:bg-[var(--surface-raised)] border border-[var(--hairline)] transition-colors rounded-full pl-3 pr-3.5 py-1.5 text-xs font-semibold text-[var(--text)]">       
+        <GitHubIcon />
+        <span>Star on GitHub</span>
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="var(--gold)" aria-hidden="true">
+          <path d="M12 2l2.9 6.26L21.5 9l-4.9 4.6L17.8 21 12 17.5 6.2 21l1.2-7.4L2.5 9l6.6-.74L12 2z" />
+        </svg>
+      </a>
       {/* Left panel — brand */}
       <div className="hidden lg:flex lg:w-[42%] flex-col justify-between p-12 relative overflow-hidden bg-[var(--ink-deep)] border-r border-[var(--hairline)]">
         <div
@@ -82,9 +93,9 @@ export default function LoginPage() {
         />
         <div className="relative flex items-center gap-2">
           <div className="h-9 w-9 rounded-xl bg-[var(--primary)] flex items-center justify-center font-display font-extrabold text-lg text-[#1a0d05]">
-            W
+            V
           </div>
-          <span className="font-display font-bold text-xl tracking-tight">Wal</span>
+          <span className="font-display font-bold text-xl tracking-tight">Valerius</span>
         </div>
 
         <div className="relative">
@@ -95,12 +106,12 @@ export default function LoginPage() {
           </p>
           <p className="text-[var(--text-dim)] text-sm max-w-xs">
             A sandbox wallet for trying out payments, transfers, and QR-based
-            money moves — with zero connection to real money or real banks.
+            money moves with zero connection to real money or real banks.
           </p>
         </div>
 
         <p className="relative text-xs text-[var(--text-dim)]">
-          © {new Date().getFullYear()} Wal — simulated, always.
+          © {new Date().getFullYear()} Valerius simulated, always.
         </p>
       </div>
 
@@ -109,9 +120,9 @@ export default function LoginPage() {
         <div className="w-full max-w-sm rise-in">
           <div className="flex items-center gap-2 mb-8 justify-center lg:hidden">
             <div className="h-9 w-9 rounded-xl bg-[var(--primary)] flex items-center justify-center font-display font-extrabold text-lg text-[#1a0d05]">
-              W
+              V
             </div>
-            <span className="font-display font-bold text-xl tracking-tight">Wal</span>
+            <span className="font-display font-bold text-xl tracking-tight">Valerius</span>
           </div>
 
           <h1 className="font-display text-2xl font-bold mb-1">
@@ -231,7 +242,7 @@ export default function LoginPage() {
           </form>
 
           <p className="text-center text-xs text-[var(--text-dim)] mt-5">
-            Fully simulated — no real money, cards, or banks involved.
+            Fully simulated no real money, cards, or banks involved.
           </p>
         </div>
       </div>

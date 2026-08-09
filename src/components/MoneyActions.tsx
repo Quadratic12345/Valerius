@@ -97,7 +97,7 @@ export function AddMoneyButton() {
             {pending ? "Adding…" : "Add to wallet"}
           </button>
           <p className="text-[11px] text-center text-[var(--text-dim)]">
-            Simulated top-up — no real payment is made.
+            Simulated top-up no real payment is made.
           </p>
         </form>
       </Modal>
@@ -175,7 +175,7 @@ export function SendMoneyButton() {
             {pending ? "Sending…" : "Send"}
           </button>
           <p className="text-[11px] text-center text-[var(--text-dim)]">
-            Simulated transfer — moves balance between wallets in this app only.
+            Simulated transfer moves balance between wallets in this app only.
           </p>
         </form>
       </Modal>
