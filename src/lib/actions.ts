@@ -44,3 +44,34 @@ export async function searchTransactionsAction(query: string) {
   if (!wallet) return [];
   return walletService.getTransactions(wallet.id, { search: query });
 }
+export async function addContactAction(_prev: unknown, formData: FormData) {
+  try {
+    const userId = await requireUserId();
+    const nickname = String(formData.get("nickname") || "");
+    const walletId = String(formData.get("walletId") || "");
+    await walletService.addContact(userId, nickname, walletId);
+    revalidatePath("/");
+    return { ok: true, error: null };
+  } catch (e) {
+    return { ok: false, error: e instanceof Error ? e.message : "Something went wrong." };
+  }
+}
+
+export async function deleteContactAction(contactId: string) {
+  const userId = await requireUserId();
+  await walletService.deleteContact(userId, contactId);
+  revalidatePath("/");
+}
+
+export async function updateProfileAction(_prev: unknown, formData: FormData) {
+  try {
+    const userId = await requireUserId();
+    const name = String(formData.get("name") || "");
+    await walletService.updateProfileName(userId, name);
+    revalidatePath("/");
+    revalidatePath("/settings");
+    return { ok: true, error: null };
+  } catch (e) {
+    return { ok: false, error: e instanceof Error ? e.message : "Something went wrong." };
+  }
+}

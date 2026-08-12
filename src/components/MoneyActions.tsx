@@ -97,7 +97,7 @@ export function AddMoneyButton() {
             {pending ? "Adding…" : "Add to wallet"}
           </button>
           <p className="text-[11px] text-center text-[var(--text-dim)]">
-            Simulated top-up no real payment is made.
+            Simulated top-up — no real payment is made.
           </p>
         </form>
       </Modal>
@@ -105,14 +105,20 @@ export function AddMoneyButton() {
   );
 }
 
-export function SendMoneyButton() {
+export function SendMoneyButton({
+  contacts = [],
+}: {
+  contacts?: { id: string; nickname: string; walletId: string }[];
+}) {
   const [open, setOpen] = useState(false);
   const [state, formAction, pending] = useActionState(sendMoneyAction, initialState);
   const formRef = useRef<HTMLFormElement>(null);
+  const [selectedWalletId, setSelectedWalletId] = useState("");
 
   useEffect(() => {
     if (state.ok) {
       formRef.current?.reset();
+      setSelectedWalletId("");
       setOpen(false);
     }
   }, [state.ok]);
@@ -127,6 +133,29 @@ export function SendMoneyButton() {
       </button>
       <Modal open={open} onClose={() => setOpen(false)} title="Send money">
         <form ref={formRef} action={formAction} className="space-y-4">
+          {contacts.length > 0 && (
+            <div>
+              <label className="text-xs font-medium text-[var(--text-dim)] mb-1.5 block">
+                Saved contacts
+              </label>
+              <div className="flex flex-wrap gap-1.5">
+                {contacts.map((c) => (
+                  <button
+                    key={c.id}
+                    type="button"
+                    onClick={() => setSelectedWalletId(c.walletId)}
+                    className={`px-2.5 py-1 rounded-full text-xs font-medium border transition-colors cursor-pointer ${
+                      selectedWalletId === c.walletId
+                        ? "bg-[var(--primary)] text-[#1a0d05] border-[var(--primary)]"
+                        : "bg-[var(--ink-deep)] text-[var(--text-dim)] border-[var(--hairline)]"
+                    }`}
+                  >
+                    {c.nickname}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
           <div>
             <label className="text-xs font-medium text-[var(--text-dim)] mb-1.5 block">
               Payment ID
@@ -135,6 +164,8 @@ export function SendMoneyButton() {
               name="toWalletId"
               required
               autoFocus
+              value={selectedWalletId}
+              onChange={(e) => setSelectedWalletId(e.target.value)}
               placeholder="WAL-000000"
               className="w-full bg-[var(--ink-deep)] border border-[var(--hairline)] rounded-xl px-3 py-2.5 font-mono text-sm tracking-wider focus:border-[var(--primary-soft)] outline-none uppercase"
             />
@@ -175,7 +206,7 @@ export function SendMoneyButton() {
             {pending ? "Sending…" : "Send"}
           </button>
           <p className="text-[11px] text-center text-[var(--text-dim)]">
-            Simulated transfer moves balance between wallets in this app only.
+            Simulated transfer — moves balance between wallets in this app only.
           </p>
         </form>
       </Modal>

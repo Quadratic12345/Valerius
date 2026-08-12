@@ -5,11 +5,13 @@ import { useState } from "react";
 export default function DashboardTabs({
   overview,
   activity,
+  contacts,
 }: {
   overview: React.ReactNode;
   activity: React.ReactNode;
+  contacts: React.ReactNode;
 }) {
-  const [tab, setTab] = useState<"overview" | "activity">("overview");
+  const [tab, setTab] = useState<"overview" | "activity" | "contacts">("overview");
 
   return (
     <>
@@ -28,10 +30,17 @@ export default function DashboardTabs({
         >
           Activity
         </button>
+        <button
+          type="button"
+          onClick={() => setTab("contacts")}
+          className={`seg-btn ${tab === "contacts" ? "active" : ""}`}
+        >
+          Contacts
+        </button>
       </div>
 
       <div className="w-full flex flex-col items-center gap-8 rise-in" key={tab}>
-        {tab === "overview" ? overview : activity}
+        {tab === "overview" ? overview : tab === "activity" ? activity : contacts}
       </div>
     </>
   );

@@ -1,5 +1,5 @@
 import { db } from "@/db";
-import { wallets, transactions, user } from "@/db/schema";
+import { wallets, transactions, user, contacts } from "@/db/schema";
 import { eq, desc, and, or, ilike } from "drizzle-orm";
 
 function randomWalletId() {
@@ -15,8 +15,10 @@ function randomTxnId() {
 
 const DEMO_STARTING_BALANCE = 12450;
 
+/** Every new user is provisioned a simulated wallet with demo balance so they can try the app immediately. */
 export async function createWalletForUser(userId: string) {
   let id = randomWalletId();
+  // Extremely unlikely, but guard against collision.
   while ((await db.select().from(wallets).where(eq(wallets.id, id)))[0]) {
     id = randomWalletId();
   }
@@ -70,6 +72,7 @@ export async function getTransactions(walletId: string, opts?: { search?: string
 
 export class WalletError extends Error {}
 
+/** Simulated top-up. No real payment rail — this just credits the wallet. */
 export async function addMoney(userId: string, amount: number, note?: string) {
   if (!Number.isFinite(amount) || amount <= 0) throw new WalletError("Enter a valid amount.");
   if (amount > 100000) throw new WalletError("Simulated top-ups are capped at ₹1,00,000.");
@@ -97,6 +100,7 @@ export async function addMoney(userId: string, amount: number, note?: string) {
   });
 }
 
+/** Simulated peer transfer between two wallets in this app. Nothing leaves the system. */
 export async function sendMoney(userId: string, toWalletId: string, amount: number, note?: string) {
   if (!Number.isFinite(amount) || amount <= 0) throw new WalletError("Enter a valid amount.");
 
@@ -112,6 +116,7 @@ export async function sendMoney(userId: string, toWalletId: string, amount: numb
   if (sender.balance < amount) throw new WalletError("Insufficient balance.");
 
   await db.transaction(async (tx) => {
+    // Re-check balance inside the transaction to guard against concurrent sends.
     const freshSender = (await tx.select().from(wallets).where(eq(wallets.id, sender.id)))[0];
     if (!freshSender || freshSender.balance < amount) {
       throw new WalletError("Insufficient balance.");
@@ -156,4 +161,61 @@ export async function sendMoney(userId: string, toWalletId: string, amount: numb
       createdAt: new Date(),
     });
   });
+}
+
+
+// ---------- Contacts (saved payees) ----------
+
+function randomContactId() {
+  return `CT-${Date.now().toString(36).toUpperCase()}-${Math.floor(Math.random() * 1e6)
+    .toString(36)
+    .toUpperCase()}`;
+}
+
+export async function getContacts(userId: string) {
+  return db
+    .select()
+    .from(contacts)
+    .where(eq(contacts.ownerUserId, userId))
+    .orderBy(contacts.nickname);
+}
+
+export async function addContact(userId: string, nickname: string, walletId: string) {
+  const cleanNickname = nickname.trim();
+  const cleanWalletId = walletId.trim().toUpperCase();
+
+  if (!cleanNickname) throw new WalletError("Enter a name for this contact.");
+  if (!cleanWalletId) throw new WalletError("Enter a payment ID.");
+
+  const ownWallet = await getWalletByUserId(userId);
+  if (ownWallet && ownWallet.id === cleanWalletId) {
+    throw new WalletError("You can't add your own wallet as a contact.");
+  }
+
+  const target = await getWalletById(cleanWalletId);
+  if (!target) throw new WalletError("No wallet found with that payment ID.");
+
+  await db.insert(contacts).values({
+    id: randomContactId(),
+    ownerUserId: userId,
+    nickname: cleanNickname,
+    walletId: cleanWalletId,
+    createdAt: new Date(),
+  });
+}
+
+export async function deleteContact(userId: string, contactId: string) {
+  await db
+    .delete(contacts)
+    .where(and(eq(contacts.id, contactId), eq(contacts.ownerUserId, userId)));
+}
+
+// ---------- Profile ----------
+
+export async function updateProfileName(userId: string, name: string) {
+  const cleanName = name.trim();
+  if (!cleanName) throw new WalletError("Name can't be empty.");
+  if (cleanName.length > 100) throw new WalletError("Name is too long.");
+
+  await db.update(user).set({ name: cleanName, updatedAt: new Date() }).where(eq(user.id, userId));
 }

@@ -69,3 +69,10 @@ export const transactions = pgTable("transactions", {
   status: txnStatusEnum("status").notNull().default("success"),
   createdAt: timestamp("created_at").notNull(),
 });
+export const contacts = pgTable("contacts", {
+  id: text("id").primaryKey(),
+  ownerUserId: text("owner_user_id").notNull().references(() => user.id, { onDelete: "cascade" }),
+  nickname: text("nickname").notNull(),
+  walletId: text("wallet_id").notNull(),
+  createdAt: timestamp("created_at").notNull(),
+});
