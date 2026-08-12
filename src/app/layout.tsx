@@ -13,7 +13,7 @@ import "@fontsource/jetbrains-mono/700.css";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Wal — simulated wallet",
+  title: "Valerius simulated wallet",
   description: "A tiny simulated digital wallet. No real money, ever.",
 };
 
